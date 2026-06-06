@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- SEO -->
+  <title>Days Til I Do — Wedding Countdown Timer</title>
+  <meta name="description" content="Free wedding countdown timer. Enter your wedding date and watch a live countdown tick down to the day, hour, minute, and second. Count down to your special day with your partner and wedding party.">
+  <meta name="keywords" content="wedding countdown, wedding countdown timer, days until wedding, days til I do, how many days until my wedding, wedding clock, bridal countdown, days until I do">
+  <meta name="author" content="DaysTilIDo">
+  <link rel="canonical" href="https://www.daystilido.com/">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Days Til I Do — Wedding Countdown Timer">
+  <meta property="og:description" content="Count down the days, hours, minutes and seconds until your wedding day. Free, instant, no sign-up required.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.daystilido.com/">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Days Til I Do — Wedding Countdown Timer">
+  <meta name="twitter:description" content="Count down to your wedding day. Free, instant, no sign-up required.">
+
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💍</text></svg>">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3328565235324858"
+     crossorigin="anonymous"></script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #fdf8f5;
+      --surface: #ffffff;
+      --border: #ecddd4;
+      --border-strong: #dfc8ba;
+      --text-primary: #2c1810;
+      --text-secondary: #7a5c50;
+      --text-muted: #b89a8e;
+      --accent: #c4728a;
+      --accent-light: #fdf0f3;
+      --accent-dark: #a85873;
+      --progress-bg: #f0dfe4;
+      --progress-fill: #c4728a;
+      --ad-bg: #faf4f1;
+      --ad-border: #e8d8d0;
+      --font-display: 'Cormorant Garamond', Georgia, serif;
+      --font-main: 'DM Sans', sans-serif;
+      --radius: 10px;
+      --radius-lg: 18px;
+    }
+
+    body {
+      font-family: var(--font-main);
+      background: var(--bg);
+      color: var(--text-primary);
+      min-height: 100vh;
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    /* ── Layout ── */
+    .layout {
+      display: grid;
+      grid-template-columns: 180px 1fr 180px;
+      min-height: 100vh;
+    }
+
+    @media (max-width: 900px) {
+      .layout { grid-template-columns: 1fr; }
+      .ad-sidebar { display: none; }
+    }
+
+    /* ── Sidebar Ads ── */
+    .ad-sidebar {
+      background: var(--ad-bg);
+      border-right: 1px solid var(--ad-border);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+
+    .ad-sidebar:last-child {
+      border-right: none;
+      border-left: 1px solid var(--ad-border);
+    }
+
+    .ad-slot {
+      width: 160px;
+      min-height: 600px;
+      background: var(--surface);
+      border: 1px dashed var(--ad-border);
+      border-radius: var(--radius);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+      font-size: 11px;
+      text-align: center;
+      gap: 6px;
+    }
+
+    /* ── Main ── */
+    .main {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2.5rem 1.5rem 3rem;
+      gap: 1.75rem;
+    }
+
+    /* ── Header ── */
+    .site-header {
+      text-align: center;
+      width: 100%;
+      max-width: 560px;
+    }
+
+    .site-logo {
+      font-family: var(--font-display);
+      font-size: 32px;
+      font-weight: 600;
+      color: var(--text-primary);
+      text-decoration: none;
+      display: block;
+      margin-bottom: 0.25rem;
+      letter-spacing: 0.02em;
+    }
+
+    .site-logo span { color: var(--accent); }
+
+    .site-tagline {
+      font-size: 13px;
+      color: var(--text-muted);
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 15px;
+    }
+
+    /* ── Countdown Card ── */
+    .countdown-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 2rem 2rem 1.5rem;
+      width: 100%;
+      max-width: 560px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .countdown-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent-light), var(--accent), var(--accent-light));
+    }
+
+    .couple-display {
+      font-family: var(--font-display);
+      font-size: 20px;
+      font-style: italic;
+      color: var(--accent);
+      margin-bottom: 1.25rem;
+      min-height: 1.4em;
+    }
+
+    .countdown-grid {
+      display: grid;
+      grid-template-columns: 1fr 12px 1fr 12px 1fr 12px 1fr;
+      gap: 4px;
+      align-items: start;
+      margin-bottom: 1.25rem;
+    }
+
+    .countdown-unit {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .countdown-number {
+      font-family: var(--font-display);
+      font-size: 52px;
+      font-weight: 600;
+      color: var(--text-primary);
+      line-height: 1;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .countdown-unit-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .countdown-divider {
+      font-family: var(--font-display);
+      font-size: 36px;
+      color: var(--border-strong);
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding-top: 8px;
+    }
+
+    .progress-track {
+      width: 100%;
+      height: 4px;
+      background: var(--progress-bg);
+      border-radius: 2px;
+      overflow: hidden;
+      margin-bottom: 0.5rem;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent-dark), var(--accent));
+      border-radius: 2px;
+      width: 0%;
+      transition: width 1s linear;
+    }
+
+    .progress-label {
+      font-size: 13px;
+      color: var(--text-muted);
+      text-align: center;
+      font-family: var(--font-display);
+      font-style: italic;
+    }
+
+    .done-message {
+      font-family: var(--font-display);
+      font-size: 26px;
+      color: var(--accent);
+      font-style: italic;
+      display: none;
+      padding: 1rem 0;
+    }
+
+    /* ── Input Card ── */
+    .input-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+      width: 100%;
+      max-width: 560px;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .input-card h2 {
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      font-style: italic;
+    }
+
+    .input-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .field label {
+      font-size: 12px;
+      color: var(--text-secondary);
+      font-weight: 500;
+      letter-spacing: 0.04em;
+    }
+
+    .field input[type="date"],
+    .field input[type="text"],
+    .field input[type="time"] {
+      font-family: var(--font-main);
+      font-size: 15px;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--bg);
+      color: var(--text-primary);
+      width: 100%;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+
+    .field input:focus { border-color: var(--accent); }
+
+    .save-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
+
+    .save-row input[type="checkbox"] {
+      width: 15px;
+      height: 15px;
+      cursor: pointer;
+      accent-color: var(--accent);
+    }
+
+    .btn {
+      width: 100%;
+      padding: 13px;
+      font-family: var(--font-main);
+      font-size: 15px;
+      font-weight: 500;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: opacity 0.15s, transform 0.1s;
+      letter-spacing: 0.02em;
+    }
+
+    .btn:hover { opacity: 0.88; }
+    .btn:active { transform: scale(0.99); }
+
+    /* ── Share nudge ── */
+    .share-nudge {
+      background: var(--accent-light);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 0.75rem 1rem;
+      width: 100%;
+      max-width: 560px;
+      text-align: center;
+      font-size: 13px;
+      color: var(--text-secondary);
+      display: none;
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 15px;
+    }
+
+    /* ── Leaderboard Ad ── */
+    .ad-leaderboard {
+      width: 100%;
+      max-width: 728px;
+      height: 90px;
+      background: var(--ad-bg);
+      border: 1px dashed var(--ad-border);
+      border-radius: var(--radius);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    /* ── Info / FAQ ── */
+    .info-section {
+      width: 100%;
+      max-width: 560px;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .info-section h2 {
+      font-family: var(--font-display);
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .info-section p {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    .faq-item {
+      border-top: 1px solid var(--border);
+      padding-top: 1rem;
+    }
+
+    .faq-item h3 {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-primary);
+      margin-bottom: 0.4rem;
+    }
+
+    .faq-item p {
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
+
+    footer {
+      width: 100%;
+      max-width: 560px;
+      text-align: center;
+      font-size: 12px;
+      color: var(--text-muted);
+      padding-top: 0.5rem;
+      border-top: 1px solid var(--border);
+      font-family: var(--font-display);
+      font-style: italic;
+    }
+
+    footer a { color: var(--text-muted); text-decoration: underline; }
+
+    @media (max-width: 600px) {
+      .countdown-number { font-size: 38px; }
+      .countdown-card { padding: 1.25rem; }
+      .ad-leaderboard { display: none; }
+      .input-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="layout">
+
+  <aside class="ad-sidebar" aria-label="Advertisement">
+    <div class="ad-slot">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.4"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+      <span>160×600<br>Ad unit</span>
+    </div>
+  </aside>
+
+  <main class="main">
+
+    <header class="site-header">
+      <a class="site-logo" href="/">Days Til <span>I Do</span> 💍</a>
+      <p class="site-tagline">Count down to the most beautiful day of your life</p>
+    </header>
+
+    <!-- Countdown display -->
+    <div class="countdown-card" role="region" aria-label="Wedding countdown timer">
+      <div class="couple-display" id="couple-display">Enter your wedding details below</div>
+
+      <div class="countdown-grid">
+        <div class="countdown-unit">
+          <div class="countdown-number" id="cd-days">--</div>
+          <div class="countdown-unit-label">Days</div>
+        </div>
+        <div class="countdown-divider">:</div>
+        <div class="countdown-unit">
+          <div class="countdown-number" id="cd-hours">--</div>
+          <div class="countdown-unit-label">Hours</div>
+        </div>
+        <div class="countdown-divider">:</div>
+        <div class="countdown-unit">
+          <div class="countdown-number" id="cd-minutes">--</div>
+          <div class="countdown-unit-label">Minutes</div>
+        </div>
+        <div class="countdown-divider">:</div>
+        <div class="countdown-unit">
+          <div class="countdown-number" id="cd-seconds">--</div>
+          <div class="countdown-unit-label">Seconds</div>
+        </div>
+      </div>
+
+      <div class="done-message" id="done-message">💍 Today is the day — congratulations!</div>
+
+      <div class="progress-track">
+        <div class="progress-fill" id="progress-fill"></div>
+      </div>
+      <div class="progress-label" id="progress-label">Your countdown to forever starts below</div>
+    </div>
+
+    <!-- Share nudge -->
+    <div class="share-nudge" id="share-nudge">
+      💌 Share this page with your partner and wedding party — everyone can count down together!
+    </div>
+
+    <!-- Leaderboard ad -->
+    <div class="ad-leaderboard" role="complementary" aria-label="Advertisement">
+      728×90 Ad unit
+    </div>
+
+    <!-- Input card -->
+    <div class="input-card">
+      <h2>Your wedding details</h2>
+      <div class="input-row">
+        <div class="field">
+          <label for="partner1">Your name</label>
+          <input type="text" id="partner1" placeholder="e.g. Sarah">
+        </div>
+        <div class="field">
+          <label for="partner2">Partner's name</label>
+          <input type="text" id="partner2" placeholder="e.g. James">
+        </div>
+      </div>
+      <div class="input-row">
+        <div class="field">
+          <label for="wedding-date">Wedding date</label>
+          <input type="date" id="wedding-date">
+        </div>
+        <div class="field">
+          <label for="ceremony-time">Ceremony time (optional)</label>
+          <input type="time" id="ceremony-time" value="14:00">
+        </div>
+      </div>
+      <label class="save-row">
+        <input type="checkbox" id="save-data" checked>
+        Remember our wedding on this device
+      </label>
+      <button class="btn" onclick="startCountdown()">Start our countdown 💍</button>
+    </div>
+
+    <!-- SEO / FAQ -->
+    <section class="info-section" aria-label="About Days Til I Do">
+      <h2>How to use the wedding countdown</h2>
+      <p>Enter your names, wedding date, and ceremony time, then press Start. The timer counts down in real time — days, hours, minutes, and seconds — until your ceremony begins. Share the page with your partner, bridesmaids, groomsmen, and family so everyone can count down together.</p>
+
+      <div class="faq-item">
+        <h3>Will it remember our wedding date?</h3>
+        <p>Check "Remember our wedding" and your details will be saved on your device. Next time you visit, your countdown picks up right where it left off — no re-entering needed.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>Can I share this with my wedding party?</h3>
+        <p>Absolutely — just share the link to daystilido.com with your bridesmaids, groomsmen, and family. Have everyone enter the same date and you can all count down together from anywhere in the world.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>How far in advance can I set it?</h3>
+        <p>As far out as you'd like — just got engaged and your wedding is two years away? No problem. The countdown will tick down from years all the way to the final seconds before you walk down the aisle.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>Does it count down to the exact ceremony time?</h3>
+        <p>Yes — enter your ceremony time and the countdown will tick down to the exact minute your wedding begins, not just the date.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>Who is this for?</h3>
+        <p>Anyone planning a wedding — engaged couples, brides, grooms, bridesmaids, and excited family members. Whether your wedding is next week or next year, Days Til I Do helps you savor every moment of the countdown.</p>
+      </div>
+    </section>
+
+    <footer>
+      <p>&copy; <span id="year"></span> DaysTilIDo.com &mdash; Free wedding countdown timer &mdash; <a href="/privacy.html">Privacy</a></p>
+    </footer>
+
+  </main>
+
+  <aside class="ad-sidebar" aria-label="Advertisement">
+    <div class="ad-slot">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.4"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+      <span>160×600<br>Ad unit</span>
+    </div>
+  </aside>
+
+</div>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  var ticker = null;
+
+  function pad(n) { return String(Math.floor(n)).padStart(2, '0'); }
+
+  function loadSaved() {
+    try {
+      var p1 = localStorage.getItem('dtid_p1');
+      var p2 = localStorage.getItem('dtid_p2');
+      var date = localStorage.getItem('dtid_date');
+      var time = localStorage.getItem('dtid_time');
+      if (p1) document.getElementById('partner1').value = p1;
+      if (p2) document.getElementById('partner2').value = p2;
+      if (date) document.getElementById('wedding-date').value = date;
+      if (time) document.getElementById('ceremony-time').value = time;
+    } catch(e) {}
+  }
+
+  function saveData() {
+    try {
+      if (document.getElementById('save-data').checked) {
+        localStorage.setItem('dtid_p1', document.getElementById('partner1').value);
+        localStorage.setItem('dtid_p2', document.getElementById('partner2').value);
+        localStorage.setItem('dtid_date', document.getElementById('wedding-date').value);
+        localStorage.setItem('dtid_time', document.getElementById('ceremony-time').value);
+      } else {
+        ['dtid_p1','dtid_p2','dtid_date','dtid_time'].forEach(function(k){ localStorage.removeItem(k); });
+      }
+    } catch(e) {}
+  }
+
+  function startCountdown() {
+    var dateVal = document.getElementById('wedding-date').value;
+    var timeVal = document.getElementById('ceremony-time').value || '00:00';
+    var p1 = document.getElementById('partner1').value.trim();
+    var p2 = document.getElementById('partner2').value.trim();
+
+    if (!dateVal) {
+      document.getElementById('progress-label').textContent = 'Please enter your wedding date.';
+      return;
+    }
+
+    saveData();
+
+    var targetDate = new Date(dateVal + 'T' + timeVal + ':00');
+
+    // Couple display
+    var coupleEl = document.getElementById('couple-display');
+    if (p1 && p2) {
+      coupleEl.textContent = p1 + ' & ' + p2 + ' — ' + targetDate.toLocaleDateString('en-US', {month: 'long', day: 'numeric', year: 'numeric'});
+    } else {
+      coupleEl.textContent = 'Wedding day — ' + targetDate.toLocaleDateString('en-US', {month: 'long', day: 'numeric', year: 'numeric'});
+    }
+
+    document.title = 'Counting down to the wedding 💍 — Days Til I Do';
+    document.getElementById('share-nudge').style.display = 'block';
+
+    if (ticker) clearInterval(ticker);
+
+    function tick() {
+      var now = new Date();
+      var diff = targetDate - now;
+
+      if (diff <= 0) {
+        document.getElementById('cd-days').textContent = '00';
+        document.getElementById('cd-hours').textContent = '00';
+        document.getElementById('cd-minutes').textContent = '00';
+        document.getElementById('cd-seconds').textContent = '00';
+        document.getElementById('progress-fill').style.width = '100%';
+        document.getElementById('progress-label').textContent = 'Today is the day! 💍';
+        document.getElementById('done-message').style.display = 'block';
+        document.getElementById('couple-display').style.display = 'none';
+        document.title = '💍 Wedding day! — Days Til I Do';
+        clearInterval(ticker);
+        return;
+      }
+
+      document.getElementById('done-message').style.display = 'none';
+
+      var days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      var hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      var minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      var seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+      document.getElementById('cd-days').textContent = pad(days);
+      document.getElementById('cd-hours').textContent = pad(hours);
+      document.getElementById('cd-minutes').textContent = pad(minutes);
+      document.getElementById('cd-seconds').textContent = pad(seconds);
+
+      var oneYear = 365 * 24 * 60 * 60 * 1000;
+      var totalMs = Math.max(oneYear, diff);
+      var pct = Math.max(0, Math.min(100, Math.round((1 - diff / totalMs) * 100)));
+      document.getElementById('progress-fill').style.width = pct + '%';
+
+      if (days === 0 && hours === 0) {
+        document.getElementById('progress-label').textContent = 'Almost time — just minutes away! 💐';
+      } else if (days === 0) {
+        document.getElementById('progress-label').textContent = 'Today is the day — just ' + hours + ' hours to go!';
+      } else if (days === 1) {
+        document.getElementById('progress-label').textContent = 'Tomorrow! One more sleep until forever 💍';
+      } else if (days < 7) {
+        document.getElementById('progress-label').textContent = 'Only ' + days + ' days to go — it\'s almost here!';
+      } else if (days < 30) {
+        document.getElementById('progress-label').textContent = days + ' days to go — getting so close!';
+      } else if (days < 365) {
+        document.getElementById('progress-label').textContent = days + ' days until your forever begins';
+      } else {
+        var years = Math.floor(days / 365);
+        var rem = days % 365;
+        document.getElementById('progress-label').textContent = years + ' year' + (years > 1 ? 's' : '') + ' and ' + rem + ' days until the big day';
+      }
+    }
+
+    tick();
+    ticker = setInterval(tick, 1000);
+  }
+
+  loadSaved();
+  if (document.getElementById('wedding-date').value) {
+    startCountdown();
+  }
+</script>
+
+</body>
+</html>
