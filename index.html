@@ -28,7 +28,6 @@
   <meta name="google-site-verification" content="RXw8jPjz0XmohxU5DTmwkLiiRlM5S0XbKbJhZWrd18g" />
 
   <!-- Fonts -->
-   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
@@ -70,7 +69,6 @@
       line-height: 1.6;
     }
 
-    /* ── Layout ── */
     .layout {
       display: grid;
       grid-template-columns: 180px 1fr 180px;
@@ -82,7 +80,6 @@
       .ad-sidebar { display: none; }
     }
 
-    /* ── Sidebar Ads ── */
     .ad-sidebar {
       background: var(--ad-bg);
       border-right: 1px solid var(--ad-border);
@@ -101,20 +98,12 @@
     .ad-slot {
       width: 160px;
       min-height: 600px;
-      background: var(--surface);
-      border: 1px dashed var(--ad-border);
-      border-radius: var(--radius);
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      color: var(--text-muted);
-      font-size: 11px;
-      text-align: center;
-      gap: 6px;
     }
 
-    /* ── Main ── */
     .main {
       display: flex;
       flex-direction: column;
@@ -123,7 +112,6 @@
       gap: 1.75rem;
     }
 
-    /* ── Header ── */
     .site-header {
       text-align: center;
       width: 100%;
@@ -151,7 +139,6 @@
       font-size: 15px;
     }
 
-    /* ── Countdown Card ── */
     .countdown-card {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -167,9 +154,7 @@
     .countdown-card::before {
       content: '';
       position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
+      top: 0; left: 0; right: 0;
       height: 3px;
       background: linear-gradient(90deg, var(--accent-light), var(--accent), var(--accent-light));
     }
@@ -259,7 +244,6 @@
       padding: 1rem 0;
     }
 
-    /* ── Input Card ── */
     .input-card {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -349,7 +333,6 @@
     .btn:hover { opacity: 0.88; }
     .btn:active { transform: scale(0.99); }
 
-    /* ── Share nudge ── */
     .share-nudge {
       background: var(--accent-light);
       border: 1px solid var(--border);
@@ -366,22 +349,11 @@
       font-size: 15px;
     }
 
-    /* ── Leaderboard Ad ── */
     .ad-leaderboard {
       width: 100%;
       max-width: 728px;
-      height: 90px;
-      background: var(--ad-bg);
-      border: 1px dashed var(--ad-border);
-      border-radius: var(--radius);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 11px;
-      color: var(--text-muted);
     }
 
-    /* ── Info / FAQ ── */
     .info-section {
       width: 100%;
       max-width: 560px;
@@ -397,10 +369,25 @@
       color: var(--text-primary);
     }
 
+    .info-section h3 {
+      font-family: var(--font-display);
+      font-size: 17px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 0.4rem;
+    }
+
     .info-section p {
       font-size: 14px;
       color: var(--text-secondary);
       line-height: 1.7;
+    }
+
+    .info-section ul {
+      margin-left: 1.25rem;
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.9;
     }
 
     .faq-item {
@@ -418,6 +405,12 @@
     .faq-item p {
       font-size: 13px;
       color: var(--text-secondary);
+    }
+
+    .content-divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 0.5rem 0;
     }
 
     footer {
@@ -441,7 +434,8 @@
       .input-row { grid-template-columns: 1fr; }
     }
   </style>
-<!-- Google tag (gtag.js) -->
+
+  <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-EYC2K3M4WL"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -457,8 +451,13 @@
 
   <aside class="ad-sidebar" aria-label="Advertisement">
     <div class="ad-slot">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.4"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
-      <span>160×600<br>Ad unit</span>
+      <ins class="adsbygoogle"
+           style="display:block;width:160px;min-height:600px"
+           data-ad-client="ca-pub-3328565235324858"
+           data-ad-slot="4568745054"
+           data-ad-format="auto"
+           data-full-width-responsive="false"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
     </div>
   </aside>
 
@@ -510,7 +509,13 @@
 
     <!-- Leaderboard ad -->
     <div class="ad-leaderboard" role="complementary" aria-label="Advertisement">
-      728×90 Ad unit
+      <ins class="adsbygoogle"
+           style="display:block;width:100%;height:90px"
+           data-ad-client="ca-pub-3328565235324858"
+           data-ad-slot="4568745054"
+           data-ad-format="horizontal"
+           data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
     </div>
 
     <!-- Input card -->
@@ -545,8 +550,31 @@
 
     <!-- SEO / FAQ -->
     <section class="info-section" aria-label="About Days Til I Do">
+
       <h2>How to use the wedding countdown</h2>
-      <p>Enter your names, wedding date, and ceremony time, then press Start. The timer counts down in real time — days, hours, minutes, and seconds — until your ceremony begins. Share the page with your partner, bridesmaids, groomsmen, and family so everyone can count down together.</p>
+      <p>Enter your names, wedding date, and ceremony time, then press <strong>Start our countdown</strong>. The timer counts down in real time — days, hours, minutes, and seconds — until your ceremony begins. Share the page with your partner, bridesmaids, groomsmen, and family so everyone can count down together.</p>
+
+      <hr class="content-divider">
+
+      <h2>Make Every Day Count Before the Big Day</h2>
+      <p>From the moment you get engaged, the countdown begins. Whether your wedding is six weeks away or two years out, Days Til I Do turns the wait into something to celebrate. Check in every morning with your coffee, share it with your wedding party across the country, and watch the days melt away one by one.</p>
+
+      <p>Wedding planning is one of the most exciting — and stressful — seasons of life. Having a visual countdown reminds you that all the planning, the decisions, the vendor calls, and the family logistics are leading somewhere beautiful. Every day that passes is one day closer to forever.</p>
+
+      <hr class="content-divider">
+
+      <h3>Who Uses Days Til I Do?</h3>
+      <ul>
+        <li>Engaged couples counting down to their ceremony</li>
+        <li>Brides sharing the countdown with their bridesmaids</li>
+        <li>Grooms and groomsmen tracking the final days</li>
+        <li>Parents of the bride or groom watching the big day approach</li>
+        <li>Destination wedding guests counting down their travel date</li>
+        <li>Wedding planners keeping clients excited and on schedule</li>
+        <li>Anyone who loves someone getting married</li>
+      </ul>
+
+      <hr class="content-divider">
 
       <div class="faq-item">
         <h3>Will it remember our wedding date?</h3>
@@ -560,18 +588,24 @@
 
       <div class="faq-item">
         <h3>How far in advance can I set it?</h3>
-        <p>As far out as you'd like — just got engaged and your wedding is two years away? No problem. The countdown will tick down from years all the way to the final seconds before you walk down the aisle.</p>
+        <p>As far out as you'd like. Just got engaged and your wedding is two years away? No problem. The countdown will tick down from years all the way to the final seconds before you walk down the aisle.</p>
       </div>
 
       <div class="faq-item">
         <h3>Does it count down to the exact ceremony time?</h3>
-        <p>Yes — enter your ceremony time and the countdown will tick down to the exact minute your wedding begins, not just the date.</p>
+        <p>Yes — enter your ceremony time and the countdown will tick down to the exact minute your wedding begins, not just the date. Perfect for those final morning-of jitters.</p>
       </div>
 
       <div class="faq-item">
-        <h3>Who is this for?</h3>
-        <p>Anyone planning a wedding — engaged couples, brides, grooms, bridesmaids, and excited family members. Whether your wedding is next week or next year, Days Til I Do helps you savor every moment of the countdown.</p>
+        <h3>Does it work on my phone?</h3>
+        <p>Yes — Days Til I Do is fully mobile-responsive. Bookmark it to your home screen so you can check the countdown every morning without opening a browser.</p>
       </div>
+
+      <div class="faq-item">
+        <h3>Is it free?</h3>
+        <p>Completely free, always. No account required, no app to download, no subscription. Just enter your date and start counting down to forever.</p>
+      </div>
+
     </section>
 
     <footer>
@@ -582,8 +616,13 @@
 
   <aside class="ad-sidebar" aria-label="Advertisement">
     <div class="ad-slot">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.4"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
-      <span>160×600<br>Ad unit</span>
+      <ins class="adsbygoogle"
+           style="display:block;width:160px;min-height:600px"
+           data-ad-client="ca-pub-3328565235324858"
+           data-ad-slot="4568745054"
+           data-ad-format="auto"
+           data-full-width-responsive="false"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
     </div>
   </aside>
 
@@ -637,7 +676,6 @@
 
     var targetDate = new Date(dateVal + 'T' + timeVal + ':00');
 
-    // Couple display
     var coupleEl = document.getElementById('couple-display');
     if (p1 && p2) {
       coupleEl.textContent = p1 + ' & ' + p2 + ' — ' + targetDate.toLocaleDateString('en-US', {month: 'long', day: 'numeric', year: 'numeric'});
